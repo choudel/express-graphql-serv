@@ -1,44 +1,16 @@
-import { resolveObjectURL } from 'buffer';
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import schema from './schema';
-
+import schema from './data/schema';
+import resolvers from './data/resolvers'
+import { Categories } from './data/dbConnectors';
 const app = express();
 
 app.get('/', (req,res)=>{
     res.send('graphQL is amazing!');
 });
 
-class Product {
-    constructor(id,{name,description, price,soldout,stores} ){
-        this.id= id;
-        this.name= name;
-        this.description= description;
-        this.price= price;
-        this.soldout=soldout;
-        this.stores=stores;
-    }
-}
-const productDatabase ={
 
-}
-const root = { product :()=>{
-    return {
-        "id":212551,
-        "name":"widget",
-        "description":"best garden prettifier",
-        "price": 34.99,
-        "soldout": false,
-        "stores": [{store:"annaba", store:"skikda"}],
-    }
-    
-    },
-    createProduct: ({input})=>{
-        let id =require('crypto').randomBytes(10).toString('hex');
-        productDatabase[id]=input;
-        return new Product(id,input);
-    }
-};
+const root = resolvers;
 
 app.use('/graphql', graphqlHTTP({
     schema: schema,
