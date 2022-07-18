@@ -1,23 +1,22 @@
-import { reject } from 'lodash';
-import {Categories} from './dbConnectors'
+import { categories } from "./dbConnectors";
 
 export const resolvers ={
-    getProducts: async ()=> {
-        
-        
-    },
-    createProduct: ({input})=>{
-       const newWidget= new Categories({
-        name:input.name,
-        description:input.description,
-        price:input.price,
-        soldout:input.soldout,
-        inventory:input.inventory,
-        stores:input.stores,
-       });
-       newWidget.id=newWidget._id
-
+    
+    getProduct: async ({id})=>{
+        try{
+            const product= await categories.findOne({where:{id:id}})
+            return product;
+            
+        }catch(err){
+            console.log(err)
+        }
+       
     }
+
+    
+    
+    
 }
-console.log (resolvers.getProducts({id:1}))
+
+
 export default resolvers;

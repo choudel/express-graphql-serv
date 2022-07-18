@@ -11,7 +11,7 @@ const sequelize = new Sequelize('categories', 'root', '', {
 })
 
 
-const Categories = sequelize.define('categories', {
+const categories = sequelize.define('categories', {
     
     name: {
         type: Sequelize.DataTypes.STRING},
@@ -22,10 +22,10 @@ const Categories = sequelize.define('categories', {
     stores:{type: Sequelize.DataTypes.STRING}
 
 })
-Categories.sync({ force: true }).then(
+categories.sync({ force: true }).then(
     () => {
         _.times(5, (i) => {
-            Categories.create(
+            categories.create(
                 {
                     name: casual.word,
                     description: casual.sentence,
@@ -36,6 +36,8 @@ Categories.sync({ force: true }).then(
                 }
             )
         })
+        return categories;
     }
+    
 )
-export { sequelize, Categories }
+export { sequelize, categories }
